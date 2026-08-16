@@ -1,0 +1,60 @@
+const products = [
+  {
+    id: 1,
+    name: "HP 15s",
+    price: 45000,
+    category: "Laptop",
+    image: "/images/laptop.jpg",
+    description: "A lightweight and reliable HP laptop for work and study.",
+  },
+  {
+    id: 3,
+    name: "boAt Airdopes 141",
+    price: 1300,
+    category: "Earphones",
+    image: "/images/headphones.jpg",
+    description: "Affordable wireless earbuds with clear sound and comfort.",
+  },
+  {
+    id: 4,
+    name: "OnePlus Nord Buds 3",
+    price: 2300,
+    category: "Earphones",
+    image: "/images/headphones.jpg",
+    description: "Premium true wireless earbuds with balanced performance.",
+  },
+  {
+    id: 5,
+    name: "Noise ColorFit Pro 5",
+    price: 3500,
+    category: "Smart Watch",
+    image: "/images/smartwatch.jpg",
+    description: "A stylish smart watch with health tracking and notifications.",
+  },
+  {
+    id: 6,
+    name: "boAt Lunar Pro",
+    price: 2500,
+    category: "Smart Watch",
+    image: "/images/smartwatch.jpg",
+    description: "A budget-friendly smartwatch with a sleek design.",
+  },
+  {
+    id: 7,
+    name: "Canon EOS 1500D",
+    price: 40000,
+    category: "Camera",
+    image: "/images/camera.jpg",
+    description: "A beginner-friendly DSLR camera for photography and videos.",
+  },
+  {
+    id: 8,
+    name: "Nikon D3500",
+    price: 38000,
+    category: "Camera",
+    image: "/images/camera.jpg",
+    description: "Reliable Nikon camera built for sharp, colorful photography.",
+  },
+];
+
+module.exports = products;
