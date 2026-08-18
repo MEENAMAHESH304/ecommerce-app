@@ -1,22 +1,37 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 
 function Products({ addToCart }) {
-  const gadgetCatalog = [
-    { id: 101, name: "HP 15s", category: "Laptop", price: 45000, image: "/images/laptop.jpg" },
-    { id: 102, name: "Lenovo IdeaPad Slim 3", category: "Laptop", price: 48000, image: "/images/laptop1.jpg" },
-    { id: 103, name: "boAt Airdopes 141", category: "Earphones", price: 1300, image: "/images/headphones.jpg" },
-    { id: 104, name: "OnePlus Nord Buds 3", category: "Earphones", price: 2300, image: "/images/headphones1.jpg" },
-    { id: 105, name: "Noise ColorFit Pro 5", category: "Smart Watch", price: 3500, image: "/images/smartwatch.jpg" },
-    { id: 106, name: "boAt Lunar Pro", category: "Smart Watch", price: 2500, image: "/images/smartwatch1.jpg" },
-    { id: 107, name: "Canon EOS 1500D", category: "Camera", price: 40000, image: "/images/camera.jpg" },
-    { id: 108, name: "Nikon D3500", category: "Camera", price: 38000, image: "/images/camera1.jpg" }
-  ];
-
-  const [products] = useState(gadgetCatalog);
+  const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "https://ecommerce-app-3xh2.onrender.com/api/products"
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch products");
+        }
+
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError("Unable to load products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const categories = [
     "All",
@@ -28,8 +43,10 @@ function Products({ addToCart }) {
       const matchesSearch = product.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
+
       const matchesCategory =
-        selectedCategory === "All" || product.category === selectedCategory;
+        selectedCategory === "All" ||
+        product.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     })
@@ -48,10 +65,18 @@ function Products({ addToCart }) {
       }
     });
 
-  if (filteredProducts.length === 0) {
+  if (loading) {
     return (
       <div className="container section products-page">
-        <h2>No products found</h2>
+        <h2>Loading products...</h2>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container section products-page">
+        <h2>{error}</h2>
       </div>
     );
   }
@@ -121,7 +146,7 @@ function Products({ addToCart }) {
         <div className="product-grid">
           {filteredProducts.map((product) => (
             <ProductCard
-              key={product.id}
+              key={product._id || product.id}
               product={product}
               addToCart={addToCart}
             />
