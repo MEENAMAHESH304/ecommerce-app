@@ -14,6 +14,7 @@ const allowedOrigins = [
   process.env.FRONTEND_URL,
   process.env.CLIENT_URL,
   "http://localhost:5173",
+  "https://ecommerce-app-ecommerce-app5.vercel.app",
 ].filter(Boolean);
 
 app.use(
