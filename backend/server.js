@@ -10,37 +10,28 @@ connectDB();
 
 const app = express();
 
-const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  process.env.CLIENT_URL,
-  "http://localhost:5173",
-  "https://ecommerce-app-ecommerce-app5.vercel.app",
-].filter(Boolean);
-
+// CORS configuration
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error("Not allowed by CORS"));
-    },
+    origin: true,
     credentials: true,
   })
 );
 
+// Parse JSON requests
 app.use(express.json());
 
+// Product routes
 const productRoutes = require("./routes/products");
 
 app.use("/api/products", productRoutes);
 
+// Test route
 app.get("/", (req, res) => {
   res.send("E-Commerce API Running...");
 });
 
+// Start server
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
